@@ -1,38 +1,42 @@
 import pytest
 
 
-# Фикстура, которая будет автоматически вызываться для каждого теста
-@pytest.fixture(autouse=True)
-def send_analytics_data():
-    print("[AUTOUSE] Отправляем данные в сервис аналитики")
+@pytest.fixture
+def admin_page():
+    print('fixture start')
+
+    yield "ADMIN"
+    print("clear")
 
 
-# Фикстура для инициализации настроек автотестов на уровне сессии
-@pytest.fixture(scope='session')
-def settings():
-    print("[SESSION] Инициализируем настройки автотестов")
+@pytest.fixture
+def user_page():
+    print('fixture start')
+
+    yield "USER"
+    print("clear")
 
 
-# Фикстура для создания данных пользователя, которая будет выполняться один раз на класс тестов
-@pytest.fixture(scope='class')
-def user():
-    print("[CLASS] Создаем данные пользователя один раз на тестовый класс")
+@pytest.fixture
+def owner_page():
+    print('fixture start')
+    yield "OWNER"
+    print("clear")
 
 
-# Фикстура для открытия браузера, выполняющаяся для каждого теста
-@pytest.fixture(scope='function')
-def browser():
-    print("[FUNCTION] Открываем браузер на каждый автотест")
-
-
-class TestUserFlow:
-    def test_user_can_login(self, settings, user, browser):
-        pass
-
-    def test_user_can_create_course(self, settings, user, browser):
-        pass
-
-
-class TestAccountFlow:
-    def test_user_account(self, settings, user, browser):
-        pass
+@pytest.mark.parametrize(
+    "page_fixture",
+    [
+        "admin_page",
+        "user_page",
+        "owner_page",
+    ],
+)
+def test_endpoint(
+        request: pytest.FixtureRequest,
+        page_fixture: str,
+):
+    print("Before fixture start")
+    data = request.getfixturevalue(page_fixture)
+    print(data)
+    print("Test 1")
