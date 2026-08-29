@@ -6,12 +6,18 @@ from pages.base_page import BasePage
 class LoginPage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
-        self.email_input = self.page.get_by_test_id('login-form-email-input').locator('input')
-        self.password_input = self.page.get_by_test_id('login-form-password-input').locator('input')
-        self.login_button = self.page.get_by_test_id('login-page-login-button')
-        self.registration_link = self.page.get_by_test_id('login-page-registration-link')
+        self.email_input = self.page.get_by_test_id("login-form-email-input").locator(
+            "input"
+        )
+        self.password_input = self.page.get_by_test_id(
+            "login-form-password-input"
+        ).locator("input")
+        self.login_button = self.page.get_by_test_id("login-page-login-button")
+        self.registration_link = self.page.get_by_test_id(
+            "login-page-registration-link"
+        )
         self.wrong_email_or_password_alert = self.page.get_by_test_id(
-            'login-page-wrong-email-or-password-alert'
+            "login-page-wrong-email-or-password-alert"
         )
 
     def fill_login_form(self, email: str, password: str):
@@ -27,6 +33,8 @@ class LoginPage(BasePage):
     def click_registration_link(self):
         self.registration_link.click()
 
-    def check_visible_wrong_email_or_password_alert(self):
+    def verify_wrong_email_or_password_alert_displayed_correctly(self):
         expect(self.wrong_email_or_password_alert).to_be_visible()
-        expect(self.wrong_email_or_password_alert).to_have_text('Wrong email or password')
+        expect(self.wrong_email_or_password_alert).to_have_text(
+            "Wrong email or password"
+        )
