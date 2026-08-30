@@ -18,6 +18,7 @@ class RegistrationPage(BasePage):
         self.registration_button = self.page.get_by_test_id(
             "registration-page-registration-button"
         )
+        self.login_link = self.page.get_by_test_id("registration-page-login-link")
 
     def fill_registration_form(self, email: str, username: str, password: str):
         self.email_input.fill(email)
@@ -31,3 +32,6 @@ class RegistrationPage(BasePage):
 
     def click_registration_button(self):
         self.registration_button.click()
+
+    def click_login_link(self):
+        self.login_link.click()

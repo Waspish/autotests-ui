@@ -77,13 +77,13 @@ class CreateCoursePage(BasePage):
         )
 
         # Пустой список упражнений
-        self.empty_exercises_icon = self.page.get_by_test_id(
+        self.exercises_empty_view_icon = self.page.get_by_test_id(
             "create-course-exercises-empty-view-icon"
         )
-        self.empty_exercises_title = self.page.get_by_test_id(
+        self.exercises_empty_view_title = self.page.get_by_test_id(
             "create-course-exercises-empty-view-title-text"
         )
-        self.empty_exercises_description = self.page.get_by_test_id(
+        self.exercises_empty_view_description = self.page.get_by_test_id(
             "create-course-exercises-empty-view-description-text"
         )
 
@@ -91,17 +91,14 @@ class CreateCoursePage(BasePage):
         expect(self.create_course_title).to_be_visible()
         expect(self.create_course_title).to_have_text("Create course")
 
+    def click_create_course_button(self):
+        self.create_course_button.click()
+
     def check_visible_create_course_button(self):
         expect(self.create_course_button).to_be_visible()
 
     def check_disabled_create_course_button(self):
         expect(self.create_course_button).to_be_disabled()
-
-    def check_enabled_create_course_button(self):
-        expect(self.create_course_button).to_be_enabled()
-
-    def click_create_course_button(self):
-        self.create_course_button.click()
 
     def check_visible_image_preview_empty_view(self):
         expect(self.preview_empty_view_icon).to_be_visible()
@@ -113,9 +110,6 @@ class CreateCoursePage(BasePage):
         expect(self.preview_empty_view_description).to_have_text(
             "Preview of selected image will be displayed here"
         )
-
-    def check_visible_preview_image(self):
-        expect(self.preview_image).to_be_visible()
 
     def check_visible_image_upload_view(self, is_image_uploaded: bool = False):
         expect(self.preview_image_upload_icon).to_be_visible()
@@ -135,11 +129,14 @@ class CreateCoursePage(BasePage):
         if is_image_uploaded:
             expect(self.preview_image_remove_button).to_be_visible()
 
+    def click_remove_image_button(self):
+        self.preview_image_remove_button.click()
+
+    def check_visible_preview_image(self):
+        expect(self.preview_image).to_be_visible()
+
     def upload_preview_image(self, file: str):
         self.preview_image_upload_input.set_input_files(file)
-
-    def click_preview_image_remove_button(self):
-        self.preview_image_remove_button.click()
 
     def check_visible_create_course_form(
         self,
@@ -198,13 +195,13 @@ class CreateCoursePage(BasePage):
         self.create_exercise_button.click()
 
     def check_visible_exercises_empty_view(self):
-        expect(self.empty_exercises_icon).to_be_visible()
+        expect(self.exercises_empty_view_icon).to_be_visible()
 
-        expect(self.empty_exercises_title).to_be_visible()
-        expect(self.empty_exercises_title).to_have_text("There is no exercises")
+        expect(self.exercises_empty_view_title).to_be_visible()
+        expect(self.exercises_empty_view_title).to_have_text("There is no exercises")
 
-        expect(self.empty_exercises_description).to_be_visible()
-        expect(self.empty_exercises_description).to_have_text(
+        expect(self.exercises_empty_view_description).to_be_visible()
+        expect(self.exercises_empty_view_description).to_have_text(
             'Click on "Create exercise" button to create new exercise'
         )
 
