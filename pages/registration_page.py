@@ -6,14 +6,17 @@ from pages.base_page import BasePage
 class RegistrationPage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
-        self.email_input = (self.page.get_by_test_id("registration-form-email-input")
-                            .locator("input"))
-        self.username_input = (self.page.get_by_test_id("registration-form-username-input")
-                               .locator("input"))
-        self.password_input = (self.page.get_by_test_id("registration-form-password-input")
-                               .locator("input"))
-        self.registration_button = (
-            self.page.get_by_test_id("registration-page-registration-button")
+        self.email_input = self.page.get_by_test_id(
+            "registration-form-email-input"
+        ).locator("input")
+        self.username_input = self.page.get_by_test_id(
+            "registration-form-username-input"
+        ).locator("input")
+        self.password_input = self.page.get_by_test_id(
+            "registration-form-password-input"
+        ).locator("input")
+        self.registration_button = self.page.get_by_test_id(
+            "registration-page-registration-button"
         )
 
     def fill_registration_form(self, email: str, username: str, password: str):

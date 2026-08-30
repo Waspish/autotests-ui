@@ -1,4 +1,4 @@
-from playwright.sync_api import Page, expect
+from playwright.sync_api import expect, Page
 
 from pages.base_page import BasePage
 
@@ -6,6 +6,7 @@ from pages.base_page import BasePage
 class DashboardPage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
+
         self.title = self.page.get_by_test_id("dashboard-toolbar-title-text")
 
         self.students_title = self.page.get_by_test_id("students-widget-title-text")
@@ -20,26 +21,26 @@ class DashboardPage(BasePage):
         self.scores_title = self.page.get_by_test_id("scores-widget-title-text")
         self.scores_chart = self.page.get_by_test_id("scores-scatter-chart")
 
-    def verify_dashboard_title_displayed_correctly(self):
+    def check_visible_dashboard_title(self):
         expect(self.title).to_be_visible()
         expect(self.title).to_have_text("Dashboard")
 
-    def verify_students_chart_and_title_displayed_correctly(self):
+    def check_visible_students_title_and_chart(self):
         expect(self.students_title).to_be_visible()
         expect(self.students_title).to_have_text("Students")
         expect(self.students_chart).to_be_visible()
 
-    def verify_activities_chart_and_title_displayed_correctly(self):
+    def check_visible_activities_title_and_chart(self):
         expect(self.activities_title).to_be_visible()
         expect(self.activities_title).to_have_text("Activities")
         expect(self.activities_chart).to_be_visible()
 
-    def verify_courses_chart_and_title_displayed_correctly(self):
+    def check_visible_courses_title_and_chart(self):
         expect(self.courses_title).to_be_visible()
         expect(self.courses_title).to_have_text("Courses")
         expect(self.courses_chart).to_be_visible()
 
-    def verify_scores_chart_and_title_displayed_correctly(self):
+    def check_visible_scores_title_and_chart(self):
         expect(self.scores_title).to_be_visible()
         expect(self.scores_title).to_have_text("Scores")
         expect(self.scores_chart).to_be_visible()

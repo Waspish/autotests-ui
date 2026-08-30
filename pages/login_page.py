@@ -6,6 +6,7 @@ from pages.base_page import BasePage
 class LoginPage(BasePage):
     def __init__(self, page: Page):
         super().__init__(page)
+
         self.email_input = self.page.get_by_test_id("login-form-email-input").locator(
             "input"
         )
@@ -33,7 +34,7 @@ class LoginPage(BasePage):
     def click_registration_link(self):
         self.registration_link.click()
 
-    def verify_wrong_email_or_password_alert_displayed_correctly(self):
+    def check_visible_wrong_email_or_password_alert(self):
         expect(self.wrong_email_or_password_alert).to_be_visible()
         expect(self.wrong_email_or_password_alert).to_have_text(
             "Wrong email or password"
