@@ -19,4 +19,4 @@ def test_successful_registration(
     )
     registration_page.click_registration_button()
 
-    dashboard_page.verify_dashboard_title_displayed_correctly()
+    dashboard_page.check_visible_dashboard_title()

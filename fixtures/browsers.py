@@ -12,9 +12,11 @@ def chromium_page(playwright: Playwright) -> Iterator[Page]:
 
 
 @pytest.fixture
-def chromium_page_with_state(initialize_browser_state, playwright: Playwright) -> Iterator[Page]:
+def chromium_page_with_state(
+    initialize_browser_state, playwright: Playwright
+) -> Iterator[Page]:
     browser = playwright.chromium.launch(headless=False)
-    page = browser.new_context(storage_state='browser-state.json')
+    page = browser.new_context(storage_state="browser-state.json")
     yield page.new_page()
     browser.close()
 
@@ -29,16 +31,20 @@ def initialize_browser_state(playwright: Playwright):
         "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration"
     )
 
-    email_input = page.get_by_test_id('registration-form-email-input').locator('input')
-    email_input.fill('user.name@gmail.com')
+    email_input = page.get_by_test_id("registration-form-email-input").locator("input")
+    email_input.fill("user.name@gmail.com")
 
-    username_input = page.get_by_test_id('registration-form-username-input').locator('input')
-    username_input.fill('username')
+    username_input = page.get_by_test_id("registration-form-username-input").locator(
+        "input"
+    )
+    username_input.fill("username")
 
-    password_input = page.get_by_test_id('registration-form-password-input').locator('input')
-    password_input.fill('password')
+    password_input = page.get_by_test_id("registration-form-password-input").locator(
+        "input"
+    )
+    password_input.fill("password")
 
-    registration_button = page.get_by_test_id('registration-page-registration-button')
+    registration_button = page.get_by_test_id("registration-page-registration-button")
     registration_button.click()
 
     page.wait_for_function("""
@@ -46,6 +52,6 @@ def initialize_browser_state(playwright: Playwright):
         JSON.parse(JSON.parse(localStorage.getItem("persist:users")).user).id != null
     """)
 
-    context.storage_state(path='browser-state.json')
+    context.storage_state(path="browser-state.json")
 
     browser.close()

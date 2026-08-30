@@ -21,4 +21,4 @@ def test_wrong_email_or_password_authorization(
     )
     login_page.fill_login_form(email=email, password=password)
     login_page.click_login_button()
-    login_page.verify_wrong_email_or_password_alert_displayed_correctly()
+    login_page.check_visible_wrong_email_or_password_alert()
