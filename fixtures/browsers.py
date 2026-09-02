@@ -1,23 +1,19 @@
 from typing import Iterator
 
 import pytest
+from _pytest.fixtures import SubRequest
 from playwright.sync_api import Playwright, Page
 
 
 @pytest.fixture
-def chromium_page(playwright: Playwright) -> Iterator[Page]:
+def chromium_page(request: SubRequest, playwright: Playwright) -> Iterator[Page]:
     browser = playwright.chromium.launch(headless=False)
-    yield browser.new_page()
-    browser.close()
+    context = browser.new_context()
+    context.tracing.start(screenshots=True, snapshots=True, sources=True)
 
+    yield context.new_page()
 
-@pytest.fixture
-def chromium_page_with_state(
-    initialize_browser_state, playwright: Playwright
-) -> Iterator[Page]:
-    browser = playwright.chromium.launch(headless=False)
-    page = browser.new_context(storage_state="browser-state.json")
-    yield page.new_page()
+    context.tracing.stop(path=f"./tracing/{request.node.name}.zip")
     browser.close()
 
 
@@ -48,10 +44,24 @@ def initialize_browser_state(playwright: Playwright):
     registration_button.click()
 
     page.wait_for_function("""
-        localStorage.getItem('persist:users') &&
-        JSON.parse(JSON.parse(localStorage.getItem("persist:users")).user).id != null
-    """)
+            localStorage.getItem('persist:users') &&
+            JSON.parse(JSON.parse(localStorage.getItem("persist:users")).user).id != null
+        """)
 
     context.storage_state(path="browser-state.json")
 
+    browser.close()
+
+
+@pytest.fixture
+def chromium_page_with_state(
+    initialize_browser_state, request: SubRequest, playwright: Playwright
+) -> Iterator[Page]:
+    browser = playwright.chromium.launch(headless=False)
+    context = browser.new_context(storage_state="browser-state.json")
+    context.tracing.start(screenshots=True, snapshots=True, sources=True)
+
+    yield context.new_page()
+
+    context.tracing.stop(path=f"./tracing/{request.node.name}.zip")
     browser.close()
