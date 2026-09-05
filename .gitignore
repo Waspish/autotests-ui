@@ -2,3 +2,5 @@
 .venv
 templates
 __pycache__/
+tracing
+browser-state.json
