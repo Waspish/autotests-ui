@@ -1,3 +1,5 @@
+import allure
+
 from components.base_component import BaseComponent
 from elements.button import Button
 
@@ -16,6 +18,7 @@ class CourseViewMenuComponent(BaseComponent):
             page=page, locator="course-view-delete-menu-item", name="Delete"
         )
 
+    @allure.step('Open course menu at index "{index}" and click edit')
     def click_edit_course(self, index: int):
         self.menu_button.check_visible(nth=index)
         self.menu_button.click(nth=index)
@@ -23,6 +26,7 @@ class CourseViewMenuComponent(BaseComponent):
         self.edit_menu_item.check_visible(nth=index)
         self.edit_menu_item.click(nth=index)
 
+    @allure.step('Open course menu at index "{index}" and click delete')
     def click_delete_course(self, index: int):
         self.menu_button.check_visible(nth=index)
         self.menu_button.click(nth=index)

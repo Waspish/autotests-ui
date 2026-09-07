@@ -20,7 +20,7 @@ from tools.allure.tags import AllureTag
 @allure.suite(AllureFeature.COURSES)
 @allure.sub_suite(AllureStory.COURSES)
 class TestCourses:
-    @allure.title("Check displaying of empty courses list")
+    @allure.title("Check display of empty courses list")
     @allure.severity(Severity.NORMAL)
     def test_empty_courses_list(self, courses_list_page: CoursesListPage):
         courses_list_page.visit(

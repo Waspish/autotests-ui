@@ -1,3 +1,4 @@
+import allure
 from playwright.sync_api import Page
 
 from components.base_component import BaseComponent
@@ -12,9 +13,12 @@ class NavbarComponent(BaseComponent):
             page=page, locator="navigation-navbar-app-title-text", name="App title"
         )
         self.welcome_title = Text(
-            page=page, locator="navigation-navbar-welcome-title-text", name="Welcome title"
+            page=page,
+            locator="navigation-navbar-welcome-title-text",
+            name="Welcome title",
         )
 
+    @allure.step("Check visible navbar")
     def check_visible(self, username: str):
         self.app_title.check_visible()
         self.app_title.check_have_text("UI Course")
