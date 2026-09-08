@@ -1,5 +1,6 @@
 from typing import Iterator
 
+import allure
 import pytest
 from _pytest.fixtures import SubRequest
 from playwright.sync_api import Playwright, Page
@@ -17,6 +18,10 @@ def chromium_page(request: SubRequest, playwright: Playwright) -> Iterator[Page]
 
     context.tracing.stop(path=f"./tracing/{request.node.name}.zip")
     browser.close()
+
+    allure.attach.file(
+        source=f"./tracing/{request.node.name}.zip", name="trace", extension="zip"
+    )
 
 
 @pytest.fixture(scope="session")
@@ -56,3 +61,7 @@ def chromium_page_with_state(
 
     context.tracing.stop(path=f"./tracing/{request.node.name}.zip")
     browser.close()
+
+    allure.attach.file(
+        source=f"./tracing/{request.node.name}.zip", name="trace", extension="zip"
+    )
