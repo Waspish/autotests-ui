@@ -16,5 +16,6 @@ except ValidationError as e:
     """
     1 validation error for MyModel
     url
-      URL scheme should be 'http' or 'https' [type=url_scheme, input_value='ftp://invalid.url', input_type=str]
+      URL scheme should be 'http' or 'https'
+        [type=url_scheme, input_value='ftp://invalid.url', input_type=str]
     """
