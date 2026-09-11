@@ -1,7 +1,7 @@
 from typing import Iterator
 
 import allure
-from playwright.sync_api import Playwright, Page
+from playwright.sync_api import Playwright, Page, ViewportSize
 
 
 def initialize_playwright_page(
@@ -9,7 +9,10 @@ def initialize_playwright_page(
 ) -> Iterator[Page]:
     browser = playwright.chromium.launch(headless=False)
     context = browser.new_context(
-        storage_state=storage_state, record_video_dir="./videos"
+        storage_state=storage_state,
+        record_video_dir="./videos",
+        record_video_size=ViewportSize(width=1920, height=1080),
+        viewport=ViewportSize(width=1920, height=1080),
     )
     context.tracing.start(screenshots=True, snapshots=True, sources=True)
     page = context.new_page()
