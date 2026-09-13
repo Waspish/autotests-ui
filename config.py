@@ -35,7 +35,7 @@ class Settings(BaseSettings):
     browser_state_file: FilePath
 
     @classmethod
-    def settings_initialize(cls) -> Self:
+    def initialize(cls) -> Self:
         videos_dir = DirectoryPath("./videos")
         tracing_dir = DirectoryPath("./tracing")
         browser_state_file = FilePath("browser-state.json")
@@ -51,4 +51,4 @@ class Settings(BaseSettings):
         )
 
 
-print(Settings.settings_initialize())
+settings = Settings.initialize()
