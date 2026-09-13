@@ -8,22 +8,26 @@ with sync_playwright() as playwright:
     page = browser.new_page()  # Создаем новую страницу
 
     # Переходим на страницу авторизации
-    page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/login")
+    page.goto(
+        "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/login"
+    )
 
     # Находим поле "Email" и заполняем его
-    email_input = page.get_by_test_id('login-form-email-input').locator('input')
+    email_input = page.get_by_test_id("login-form-email-input").locator("input")
     email_input.fill("user@gmail.com")
 
     # Находим поле "Password" и заполняем его
-    password_input = page.get_by_test_id('login-form-password-input').locator('input')
+    password_input = page.get_by_test_id("login-form-password-input").locator("input")
     password_input.fill("password")
 
     # Находим кнопку "Login" и кликаем на нее
-    login_button = page.get_by_test_id('login-page-login-button')
+    login_button = page.get_by_test_id("login-page-login-button")
     login_button.click()
 
     # Проверяем, что появилось сообщение об ошибке
-    wrong_email_or_password_alert = page.get_by_test_id('login-page-wrong-email-or-password-alert')
+    wrong_email_or_password_alert = page.get_by_test_id(
+        "login-page-wrong-email-or-password-alert"
+    )
     expect(wrong_email_or_password_alert).to_be_visible()
     expect(wrong_email_or_password_alert).to_have_text("Wrong email or password")
 

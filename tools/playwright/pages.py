@@ -1,8 +1,8 @@
 from typing import Iterator
 
-import allure
 from playwright.sync_api import Playwright, Page, ViewportSize
 
+import allure
 from config import settings
 
 
@@ -11,6 +11,7 @@ def initialize_playwright_page(
 ) -> Iterator[Page]:
     browser = playwright.chromium.launch(headless=settings.headless)
     context = browser.new_context(
+        base_url=settings.get_base_url(),
         storage_state=storage_state,
         record_video_dir=settings.videos_dir,
         record_video_size=ViewportSize(width=1920, height=1080),

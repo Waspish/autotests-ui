@@ -1,9 +1,9 @@
 from typing import Iterator
 
-import pytest
 from _pytest.fixtures import SubRequest
 from playwright.sync_api import Playwright, Page
 
+import pytest
 from config import settings
 from pages.authentication.registration_page import RegistrationPage
 from tools.playwright.pages import initialize_playwright_page
@@ -29,7 +29,9 @@ def chromium_page_with_state(
 @pytest.fixture(scope="session")
 def initialize_browser_state(playwright: Playwright):
     browser = playwright.chromium.launch(headless=settings.headless)
-    context = browser.new_context(base_url=settings.base_url)
+    context = browser.new_context(
+        base_url=settings.get_base_url(),
+    )
     page = context.new_page()
 
     registration_page = RegistrationPage(page)

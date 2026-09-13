@@ -21,7 +21,9 @@ with sync_playwright() as playwright:
     page.on("response", log_response)  # Ответ получен
 
     # Переходим на страницу входа
-    page.goto("https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/login")
+    page.goto(
+        "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/login"
+    )
 
     # Задержка для завершения всех запросов
     page.wait_for_timeout(3000)
