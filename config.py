@@ -1,11 +1,11 @@
-from enum import Enum
+from enum import StrEnum
 from typing import Self
 
 from pydantic import EmailStr, HttpUrl, BaseModel, DirectoryPath, FilePath
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-class Browser(str, Enum):
+class Browser(StrEnum):
     WEBKIT = "webkit"
     FIREFOX = "firefox"
     CHROMIUM = "chromium"
