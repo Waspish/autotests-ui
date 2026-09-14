@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class AllureTag(str, Enum):
+class AllureTag(StrEnum):
     COURSES = "COURSES"
     DASHBOARD = "DASHBOARD"
     REGRESSION = "REGRESSION"

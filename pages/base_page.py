@@ -1,7 +1,10 @@
 from re import Pattern
+from urllib.parse import urljoin
 
 import allure
 from playwright.sync_api import Page, expect
+
+from config import settings
 
 
 class BasePage:
@@ -9,7 +12,8 @@ class BasePage:
         self.page = page
 
     def visit(self, url: str):
-        with allure.step(f'Open URL "{url}"'):
+        full_url = urljoin(settings.get_base_url(), url)
+        with allure.step(f'Open URL "{full_url}"'):
             self.page.goto(url, wait_until="networkidle")
 
     def reload(self):

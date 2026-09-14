@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class AllureStory(str, Enum):
+class AllureStory(StrEnum):
     COURSES = "Courses"
     DASHBOARD = "Dashboard"
     REGISTRATION = "Registration"
