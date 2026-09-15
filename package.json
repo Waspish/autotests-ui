@@ -1,0 +1,28 @@
+{
+  "name": "autotests-ui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "allure-generate": "rimraf allure-report && allure generate ./allure-results -o ./allure-report",
+    "allure-open": "allure open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Waspish/autotests-ui.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Waspish/autotests-ui/issues"
+  },
+  "homepage": "https://github.com/Waspish/autotests-ui#readme",
+  "devDependencies": {
+    "allure": "^3.17.0",
+    "rimraf": "^6.1.3"
+  }
+}

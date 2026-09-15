@@ -1,5 +1,6 @@
 from typing import Iterator
 
+import allure
 import pytest
 from _pytest.fixtures import SubRequest
 from playwright.sync_api import Playwright, Page
@@ -12,6 +13,8 @@ from tools.routes import AppRoute
 
 @pytest.fixture(params=settings.browsers)
 def chromium_page(request: SubRequest, playwright: Playwright) -> Iterator[Page]:
+    allure.dynamic.label("browser", request.param)
+
     yield from initialize_playwright_page(
         playwright=playwright, test_name=request.node.name, browser_type=request.param
     )
@@ -21,6 +24,8 @@ def chromium_page(request: SubRequest, playwright: Playwright) -> Iterator[Page]
 def chromium_page_with_state(
     initialize_browser_state, request: SubRequest, playwright: Playwright
 ) -> Iterator[Page]:
+    allure.dynamic.label("browser", request.param)
+
     yield from initialize_playwright_page(
         playwright=playwright,
         storage_state=settings.browser_state_file,
@@ -46,10 +51,26 @@ def initialize_browser_state(playwright: Playwright):
     )
     registration_page.click_registration_button()
 
+    # page.wait_for_function("""
+    #         localStorage.getItem('persist:users') &&
+    #         JSON.parse(JSON.parse(localStorage.getItem("persist:users")).user).id != null
+    #     """)
     page.wait_for_function("""
-            localStorage.getItem('persist:users') &&
-            JSON.parse(JSON.parse(localStorage.getItem("persist:users")).user).id != null
-        """)
+        () => {
+            try {
+                const raw = localStorage.getItem('persist:users');
+                if (!raw) return false;
+
+                const userRaw = JSON.parse(raw).user;
+                if (!userRaw || userRaw === 'null') return false;
+
+                const user = JSON.parse(userRaw);
+                return user != null && user.id != null;
+            } catch {
+                return false;
+            }
+        }
+    """)
 
     context.storage_state(path=settings.browser_state_file)
 
