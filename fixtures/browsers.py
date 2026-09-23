@@ -1,47 +1,77 @@
 from typing import Iterator
 
+import allure
 import pytest
 from _pytest.fixtures import SubRequest
 from playwright.sync_api import Playwright, Page
 
+from config import settings
 from pages.authentication.registration_page import RegistrationPage
 from tools.playwright.pages import initialize_playwright_page
+from tools.routes import AppRoute
 
 
-@pytest.fixture
+@pytest.fixture(params=settings.browsers)
 def chromium_page(request: SubRequest, playwright: Playwright) -> Iterator[Page]:
-    yield from initialize_playwright_page(playwright, test_name=request.node.name)
+    allure.dynamic.label("browser", request.param)
+
+    yield from initialize_playwright_page(
+        playwright=playwright, test_name=request.node.name, browser_type=request.param
+    )
 
 
-@pytest.fixture
+@pytest.fixture(params=settings.browsers)
 def chromium_page_with_state(
     initialize_browser_state, request: SubRequest, playwright: Playwright
 ) -> Iterator[Page]:
+    allure.dynamic.label("browser", request.param)
+
     yield from initialize_playwright_page(
-        playwright, storage_state="browser-state.json", test_name=request.node.name
+        playwright=playwright,
+        storage_state=settings.browser_state_file,
+        test_name=request.node.name,
+        browser_type=request.param,
     )
 
 
 @pytest.fixture(scope="session")
 def initialize_browser_state(playwright: Playwright):
-    browser = playwright.chromium.launch(headless=False)
-    context = browser.new_context()
+    browser = playwright.chromium.launch(headless=settings.headless)
+    context = browser.new_context(
+        base_url=settings.get_base_url(),
+    )
     page = context.new_page()
 
     registration_page = RegistrationPage(page)
-    registration_page.visit(
-        "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration"
-    )
+    registration_page.visit(AppRoute.REGISTRATION)
     registration_page.registration_form.fill(
-        email="user.name@gmail.com", username="username", password="password"
+        email=settings.test_user.email,
+        username=settings.test_user.username,
+        password=settings.test_user.password,
     )
     registration_page.click_registration_button()
 
+    # page.wait_for_function("""
+    #         localStorage.getItem('persist:users') &&
+    #         JSON.parse(JSON.parse(localStorage.getItem("persist:users")).user).id != null
+    #     """)
     page.wait_for_function("""
-            localStorage.getItem('persist:users') &&
-            JSON.parse(JSON.parse(localStorage.getItem("persist:users")).user).id != null
-        """)
+        () => {
+            try {
+                const raw = localStorage.getItem('persist:users');
+                if (!raw) return false;
 
-    context.storage_state(path="browser-state.json")
+                const userRaw = JSON.parse(raw).user;
+                if (!userRaw || userRaw === 'null') return false;
+
+                const user = JSON.parse(userRaw);
+                return user != null && user.id != null;
+            } catch {
+                return false;
+            }
+        }
+    """)
+
+    context.storage_state(path=settings.browser_state_file)
 
     browser.close()

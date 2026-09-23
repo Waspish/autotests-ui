@@ -1,13 +1,21 @@
+# pycharm
 .idea
+
+# python
 .venv
-templates
-__pycache__/
-tracing
-browser-state.json
-allure-report
+__pycache__
+
+# allure
 allure-results
+allure-report
+
+# testing artifacts
+browser-state.json
 videos
-node_modules
-package-lock.json
-package.json
+tracing
+
+# training artifacts
 training
+
+# npm files
+node_modules
