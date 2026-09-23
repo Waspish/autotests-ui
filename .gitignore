@@ -7,3 +7,7 @@ browser-state.json
 allure-report
 allure-results
 videos
+node_modules
+package-lock.json
+package.json
+training
