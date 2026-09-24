@@ -10,8 +10,7 @@ allure-results
 allure-report
 
 # testing artifacts
-*.html
-*.json
+browser-state.json
 videos
 tracing
 
