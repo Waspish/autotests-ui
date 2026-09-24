@@ -1,0 +1,16 @@
+INFO     BASE_PAGE:base_page.py:22 Open URL "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/login"
+INFO     BASE_ELEMENT:base_element.py:24 Getting locator with "data-testid=login-page-registration-link" at index 0
+INFO     BASE_ELEMENT:base_element.py:32 Click link "Registration"
+INFO     BASE_PAGE:base_page.py:36 Check that current URL matches pattern ".*/auth/registration"
+INFO     BASE_ELEMENT:base_element.py:24 Getting locator with "data-testid=registration-form-email-input" at index 0
+INFO     BASE_ELEMENT:base_element.py:40 Check that input "Email" is visible
+INFO     BASE_ELEMENT:base_element.py:24 Getting locator with "data-testid=registration-form-email-input" at index 0
+INFO     BASE_ELEMENT:base_element.py:48 Check that input "Email" has text ""
+INFO     BASE_ELEMENT:base_element.py:24 Getting locator with "data-testid=registration-form-username-input" at index 0
+INFO     BASE_ELEMENT:base_element.py:40 Check that input "Username" is visible
+INFO     BASE_ELEMENT:base_element.py:24 Getting locator with "data-testid=registration-form-username-input" at index 0
+INFO     BASE_ELEMENT:base_element.py:48 Check that input "Username" has text ""
+INFO     BASE_ELEMENT:base_element.py:24 Getting locator with "data-testid=registration-form-password-input" at index 0
+INFO     BASE_ELEMENT:base_element.py:40 Check that input "Password" is visible
+INFO     BASE_ELEMENT:base_element.py:24 Getting locator with "data-testid=registration-form-password-input" at index 0
+INFO     BASE_ELEMENT:base_element.py:48 Check that input "Password" has text ""
