@@ -13,6 +13,8 @@ allure-report
 browser-state.json
 videos
 tracing
+htmlcov
+.coverage
 
 # training artifacts
 training
