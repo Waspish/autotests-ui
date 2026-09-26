@@ -1,4 +1,5 @@
 import allure
+from ui_coverage_tool import ActionType
 
 from elements.base_element import BaseElement
 from tools.logger import get_logger
@@ -18,3 +19,5 @@ class FileInput(BaseElement):
             locator = self.get_locator(nth, **kwargs)
             logger.info(step)
             locator.set_input_files(file)
+
+        self.track_coverage(ActionType.FILL, nth, **kwargs)
