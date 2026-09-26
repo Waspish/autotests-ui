@@ -38,6 +38,31 @@ jobs:
         run: |
           pytest -m regression --alluredir=allure-results --numprocesses 2  # Запускаем тесты, отмеченные как "regression", генерируем результаты для Allure
 
+      - name: Restore coverage-history file from cache
+        uses: actions/cache/restore@v6
+        with:
+          path: coverage-history.json
+          key: coverage-history-{{ github.run_id }}
+          restore-keys: |
+            coverage-history-
+
+      - name: Generate UI coverage report
+        run: |
+          ui-coverage-tool save-report
+
+      - name: Save coverage-history file in cache
+        uses: actions/cache/save@v6
+        if: always()
+        with:
+          path: coverage-history.json
+          key: coverage-history-${{ github.run_id }}
+
+      - name: Saving coverage-history.json as an artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage-html
+          path: coverage.html
+
       # 5. Шаг для сохранения отчётов Allure как артефакта
       - name: Saving allure-results folder as an artifact
         uses: actions/upload-artifact@v7
