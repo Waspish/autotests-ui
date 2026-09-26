@@ -55,7 +55,7 @@ jobs:
         if: always()
         with:
           path: coverage-history.json
-          key: coverage-history-{{ github.run_id }}
+          key: coverage-history-${{ github.run_id }}
 
       - name: Saving coverage-history.json as an artifact
         uses: actions/upload-artifact@v7
