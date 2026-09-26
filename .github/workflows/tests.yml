@@ -60,8 +60,8 @@ jobs:
       - name: Saving coverage-history.json as an artifact
         uses: actions/upload-artifact@v7
         with:
-          name: coverage-history-artifact
-          path: coverage-history.json
+          name: coverage-html
+          path: coverage.html
 
       # 5. Шаг для сохранения отчётов Allure как артефакта
       - name: Saving allure-results folder as an artifact
