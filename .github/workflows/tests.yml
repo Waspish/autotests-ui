@@ -16,29 +16,30 @@ jobs:
     runs-on: ubuntu-latest  # Указываем, что тесты будут запускаться на последней версии Ubuntu
 
     steps:
-      # 1. Шаг, который будет клонировать ваш репозиторий на машину GitHub Actions
+      # Клонирование вашего репозитория на машину GitHub Actions
       - name: Check out repository
         uses: actions/checkout@v7 # Используем GitHub Action для клонирования репозитория
 
-      # 2. Шаг для установки Python на виртуальной машине
+      # Установка Python на виртуальной машине
       - name: Set up Python
         uses: actions/setup-python@v7  # Используем GitHub Action для установки Python
         with:
           python-version: '3.13'  # Устанавливаем версию Python 3.11 (можно заменить на другую версию)
 
-      # 3. Шаг для установки всех зависимостей проекта
+      # Установка всех зависимостей проекта
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip  # Обновляем pip до последней версии
           pip install -r requirements.txt  # Устанавливаем зависимости, указанные в requirements.txt
           playwright install --with-deps  # Устанавливаем браузеры для Playwright (если они не установлены)
 
-      # 4. Шаг для запуска тестов с использованием pytest и генерации отчётов Allure
+      # Запуск тестов с использованием pytest и генерации отчётов Allure
       - name: Run Playwright tests with pytest and generate Allure results
         run: |
           pytest -m regression --alluredir=allure-results --numprocesses 2  # Запускаем тесты, отмеченные как "regression", генерируем результаты для Allure
 
-      - name: Restore coverage-history file from cache
+      # Восстанавливаем историю покрытия из кеша
+      - name: Restore coverage-history.json from cache
         uses: actions/cache/restore@v6
         with:
           path: coverage-history.json
@@ -46,24 +47,28 @@ jobs:
           restore-keys: |
             coverage-history-
 
+      # Генерируем HTML-отчет и обновляем историю
       - name: Generate UI coverage report
         run: |
           ui-coverage-tool save-report
 
-      - name: Save coverage-history file in cache
+      # Сохраняем историю обратно в кеш
+      - name: Save coverage-history.json in cache
         uses: actions/cache/save@v6
         if: always()
         with:
           path: coverage-history.json
           key: coverage-history-${{ github.run_id }}
 
+      # Загружаем HTML-отчет как артефакт
       - name: Saving coverage-history.json as an artifact
+        if: always()
         uses: actions/upload-artifact@v7
         with:
           name: coverage-html
           path: coverage.html
 
-      # 5. Шаг для сохранения отчётов Allure как артефакта
+      # Шаг для сохранения отчётов Allure как артефакта
       - name: Saving allure-results folder as an artifact
         uses: actions/upload-artifact@v7
         with:
@@ -74,14 +79,14 @@ jobs:
     needs: run-tests
     runs-on: ubuntu-latest
     steps:
-      # 6. Шаг для сохранения отчётов Allure как артефакта
+      # Шаг для сохранения отчётов Allure как артефакта
       - name: Downloading allure-results-artifact
         uses: actions/download-artifact@v8
         with:
           name: allure-results-artifact
           path: allure-results-new
 
-      # 7. Шаг для получения истории отчётов Allure, если она существует
+      # Шаг для получения истории отчётов Allure, если она существует
       - name: Get Allure history
         uses: actions/checkout@v7  # Опять клонируем репозиторий, чтобы получить историю отчётов
         if: always()  # Всегда выполняем, независимо от успеха или неудачи предыдущих шагов
@@ -90,7 +95,7 @@ jobs:
           ref: gh-pages  # Указываем ветку gh-pages для получения отчётов
           path: gh-pages  # Указываем путь для сохранения отчётов
 
-      # 8. Шаг для генерации и отображения отчёта Allure
+      # Шаг для генерации и отображения отчёта Allure
       - name: Generates Allure Report with history
         uses: simple-elf/allure-report-action@master  # Используем готовое решение из GitHub Marketplace для генерации Allure отчёта
         if: always()  # Этот шаг тоже всегда выполняется
@@ -98,7 +103,7 @@ jobs:
           allure_results: allure-results-new  # Указываем каталог с результатами тестов
           allure_history: allure-history-hello  # Указываем каталог для истории отчётов Allure
 
-      # 9. Шаг для деплоя отчёта Allure на GitHub Pages, чтобы его можно было просматривать в браузере
+      # Шаг для деплоя отчёта Allure на GitHub Pages, чтобы его можно было просматривать в браузере
       - name: Deploy report to Github Pages
         if: always()  # Выполняется всегда, независимо от успеха других шагов
         uses: peaceiris/actions-gh-pages@v4  # Используем GitHub Action для публикации отчёта на GitHub Pages
