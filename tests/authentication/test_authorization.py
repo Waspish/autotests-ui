@@ -87,8 +87,3 @@ class TestAuthorization:
         registration_page.registration_form.check_visible(
             email="", password="", username=""
         )
-
-    def test_flaky_authorization(
-        self,
-    ):
-        assert False
